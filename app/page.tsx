@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 function Nav() {
+  const [menuOpen, setMenuOpen] = React.useState(false);
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -18,13 +19,44 @@ function Nav() {
           <a href="#how-it-works" className="hover:text-[#4A7C59] transition-colors">How It Works</a>
           <a href="#faq" className="hover:text-[#4A7C59] transition-colors">FAQ</a>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <a href="https://shopsofly-merchant.vercel.app/login" className="text-sm font-semibold text-gray-700 hover:text-[#4A7C59]">Login</a>
-          <a href="#pricing" className="bg-[#F97316] hover:bg-orange-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors">
+          <a href="#pricing" className="bg-[#F97316] hover:bg-orange-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors whitespace-nowrap">
+            Get Started
+          </a>
+        </div>
+        {/* Mobile right side */}
+        <div className="flex md:hidden items-center gap-3">
+          <a href="#pricing" className="bg-[#F97316] text-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap">
+            ₦2,000
+          </a>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-lg hover:bg-gray-100">
+            {menuOpen ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-4">
+          <a href="#features" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Features</a>
+          <a href="#pricing" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Pricing</a>
+          <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">How It Works</a>
+          <a href="#faq" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">FAQ</a>
+          <a href="https://shopsofly-merchant.vercel.app/login" className="block text-sm font-semibold text-gray-700">Login →</a>
+          <a href="#pricing" onClick={() => setMenuOpen(false)}
+            className="block bg-[#F97316] text-white text-sm font-bold px-4 py-3 rounded-xl text-center">
             Activate Your Store — ₦2,000
           </a>
         </div>
-      </div>
+      )}
     </nav>
   );
 }
