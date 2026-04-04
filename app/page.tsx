@@ -558,7 +558,7 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="bg-[#0F0F0F] text-black py-12 px-6">
+    <footer className="bg-[#0F0F0F] text-gray-400 py-12 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           <div>
