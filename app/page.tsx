@@ -455,6 +455,54 @@ function Pricing() {
     </section>
   );
 }
+function Resources() {
+  const tools = [
+    { name: "Verpex", category: "Domain Name", desc: "Reliable web hosting and domain registration with 99.9% uptime, perfect for getting your store online with a professional address.", fallback: "🌐", color: "from-blue-500 to-blue-600" },
+    { name: "Postscript", category: "SMS & FB Marketing", desc: "Drive repeat purchases with targeted SMS campaigns and Facebook retargeting. Turn your customer list into a revenue engine.", fallback: "📱", color: "from-purple-500 to-purple-600" },
+    { name: "Outlinematic", category: "Logo & Packaging", desc: "Create professional logos, brand identities, and product packaging designs that make your business stand out.", fallback: "🎨", color: "from-pink-500 to-rose-500" },
+    { name: "Paystack", category: "Payment Gateway", desc: "Nigeria\'s leading payment gateway. Accept cards, bank transfers, USSD, and mobile money from customers across Africa.", fallback: "💳", color: "from-[#00C3F7] to-[#0096FF]" },
+    { name: "GIG Logistics", category: "Shipping & Delivery", desc: "Fast and reliable delivery across all 36 Nigerian states. Real-time tracking, same-day delivery in Lagos, affordable rates.", fallback: "🚚", color: "from-orange-500 to-amber-500" },
+    { name: "BGRemover", category: "Image Editing", desc: "Instantly remove backgrounds from product photos with AI. Create clean, professional product images that boost conversions.", fallback: "🖼️", color: "from-green-500 to-teal-500" },
+  ];
+
+  return (
+    <section id="resources" className="py-20 px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 bg-[#4A7C59]/10 text-[#4A7C59] text-sm font-semibold px-4 py-2 rounded-full mb-4">
+            🛠️ Recommended Tools
+          </div>
+          <h2 className="font-black text-4xl md:text-5xl text-[#1A1A1A] mb-4">Tools to Grow Your Business</h2>
+          <p className="text-black text-lg max-w-2xl mx-auto">Hand-picked tools that work seamlessly with Shopsofly to help you build, market, and scale your online store.</p>
+        </div>
+        <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible pb-4 md:pb-0" style={{ scrollSnapType: "x mandatory" }}>
+          {tools.map((tool) => (
+            <a key={tool.name} href="#"
+              onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              className="group flex-shrink-0 w-72 md:w-auto block rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              style={{ scrollSnapAlign: "start" }}>
+              <div className={"bg-gradient-to-br " + tool.color + " p-6 flex items-center justify-between"}>
+                <div>
+                  <p className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-1">{tool.category}</p>
+                  <h3 className="text-white font-black text-xl">{tool.name}</h3>
+                </div>
+                <div className="text-4xl opacity-90">{tool.fallback}</div>
+              </div>
+              <div className="p-5 bg-white">
+                <p className="text-black text-sm leading-relaxed">{tool.desc}</p>
+                <div className="mt-4 flex items-center text-sm font-semibold text-[#4A7C59]">
+                  <span>Learn more</span>
+                  <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FAQ() {
   const faqs = [
     { q: "What happens after my 21-day trial?", a: "After 21 days, your store auto-downgrades to the Basic plan at ₦5,500/month. You will receive reminder emails on day 14, 18, and 21 to upgrade." },
