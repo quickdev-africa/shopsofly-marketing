@@ -34,7 +34,7 @@ function Hero() {
     <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-[#E8F0E9] via-white to-orange-50">
       <div className="max-w-5xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 bg-[#4A7C59]/10 text-[#4A7C59] text-sm font-semibold px-4 py-2 rounded-full mb-6">
-          🇳🇬 Built for Nigerian Businesses
+          🇳🇬 The Smarter Way to Sell Online!
         </div>
         <h1 className="font-black text-5xl md:text-7xl text-[#1A1A1A] leading-tight mb-6">
           Launch Your Online<br />
