@@ -2,6 +2,143 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
+
+const WHATSAPP_GROUP = "https://chat.whatsapp.com/LHhcSoh1RKN1zQ6oSNfLf1";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://robust-annmaria-laserstarglobal-813df33a.koyeb.app";
+
+function getNextSaturdays() {
+  const saturdays = [];
+  const now = new Date();
+  const d = new Date(now);
+  // Find next Saturday
+  d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7 || 7));
+  for (let i = 0; i < 4; i++) {
+    const sat = new Date(d);
+    sat.setDate(d.getDate() + i * 7);
+    if (sat <= new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)) {
+      saturdays.push(sat);
+    }
+  }
+  return saturdays;
+}
+
+function DemoPopup({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", preferred_date: "", notes: "" });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const saturdays = getNextSaturdays();
+
+  async function handleSubmit() {
+    if (!form.name || !form.email || !form.phone || !form.preferred_date) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch(`${API_URL}/api/v2/storefront/demo_bookings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Store-Subdomain": "laserstarglobal" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.errors?.join(", ") || "Failed");
+      setSuccess(true);
+    } catch (e: any) {
+      setError(e.message || "Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/70">
+      <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+        {success ? (
+          <div className="p-8 text-center">
+            <div className="text-5xl mb-4">🎉</div>
+            <h3 className="font-black text-2xl text-[#1A1A1A] mb-2">Demo Booked!</h3>
+            <p className="text-black mb-6">We have received your booking. Join our WhatsApp group to stay updated and get reminders.</p>
+            <a href={WHATSAPP_GROUP} target="_blank" rel="noopener noreferrer"
+              className="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl mb-3 transition-colors">
+              💬 Join WhatsApp Group
+            </a>
+            <button onClick={onClose} className="w-full border border-gray-200 text-black py-3 rounded-xl text-sm hover:bg-gray-50">
+              Close
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="bg-[#4A7C59] px-6 py-5 flex items-center justify-between">
+              <div>
+                <h3 className="font-black text-xl text-white">Book a Free Demo</h3>
+                <p className="text-white/80 text-sm mt-0.5">Every Saturday at 7:30 PM</p>
+              </div>
+              <button onClick={onClose} className="text-white/70 hover:text-white text-2xl">×</button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-black uppercase tracking-wide mb-1">Name *</label>
+                  <input type="text" value={form.name} onChange={e => setForm(s => ({...s, name: e.target.value}))}
+                    placeholder="John Doe"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-black" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-black uppercase tracking-wide mb-1">Phone *</label>
+                  <input type="tel" value={form.phone} onChange={e => setForm(s => ({...s, phone: e.target.value}))}
+                    placeholder="08012345678"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-black" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-black uppercase tracking-wide mb-1">Email *</label>
+                <input type="email" value={form.email} onChange={e => setForm(s => ({...s, email: e.target.value}))}
+                  placeholder="john@example.com"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-black" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-black uppercase tracking-wide mb-1">Select a Saturday *</label>
+                <select value={form.preferred_date} onChange={e => setForm(s => ({...s, preferred_date: e.target.value}))}
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-black">
+                  <option value="">Choose date (7:30 PM)</option>
+                  {saturdays.map(sat => {
+                    const iso = sat.toISOString().split("T")[0];
+                    const label = sat.toLocaleDateString("en-NG", { weekday: "long", day: "numeric", month: "long" });
+                    return <option key={iso} value={iso}>{label} — 7:30 PM</option>;
+                  })}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-black uppercase tracking-wide mb-1">Any questions? (optional)</label>
+                <textarea value={form.notes} onChange={e => setForm(s => ({...s, notes: e.target.value}))}
+                  placeholder="What do you want to learn about Shopsofly?"
+                  rows={2}
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] resize-none text-black" />
+              </div>
+              <div className="bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
+                <span className="text-2xl">💬</span>
+                <div>
+                  <p className="text-xs font-semibold text-black">Join our WhatsApp Group</p>
+                  <a href={WHATSAPP_GROUP} target="_blank" rel="noopener noreferrer"
+                    className="text-xs text-green-600 hover:underline font-medium">Click to join →</a>
+                </div>
+              </div>
+              {error && <p className="text-red-500 text-sm bg-red-50 px-3 py-2 rounded-xl">{error}</p>}
+              <button onClick={handleSubmit} disabled={loading}
+                className="w-full bg-[#F97316] hover:bg-orange-600 text-white font-black py-4 rounded-xl transition-colors disabled:opacity-60">
+                {loading ? "Booking..." : "Book My Demo Spot →"}
+              </button>
+              <p className="text-xs text-black text-center">Free. No obligation. 100% online.</p>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
@@ -63,7 +200,7 @@ function Nav() {
   );
 }
 
-function Hero() {
+function Hero({ onDemo }: { onDemo: () => void }) {
   return (
     <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-[#E8F0E9] via-white to-orange-50">
       <div className="max-w-5xl mx-auto text-center">
@@ -75,18 +212,17 @@ function Hero() {
           <span className="text-[#4A7C59]">Store in Minutes</span>
         </h1>
         <p className="text-xl text-black max-w-2xl mx-auto mb-10 leading-relaxed">
-          Nigeria&apos;s most powerful ecommerce platform. Accept Paystack, bank transfer, and cash on delivery.
-          Start your 21-day trial for just ₦2,000 activation.
+          A powerful ecommerce platform. Accept Paystack, bank transfer, and cash on delivery. Start your 21-day trial for just ₦2,000 activation.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <a href="/signup"
             className="bg-[#F97316] hover:bg-orange-600 text-white font-black px-8 py-4 rounded-2xl text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">
             Activate Your Store — ₦2,000
           </a>
-          <a href="#how-it-works"
+          <button onClick={onDemo}
             className="bg-white hover:bg-gray-50 text-gray-800 font-bold px-8 py-4 rounded-2xl text-lg border-2 border-gray-200 transition-colors">
-            See How It Works →
-          </a>
+            Book a Demo 📅
+          </button>
         </div>
         <p className="text-sm text-black">21 days full access • No monthly fee during trial • Cancel anytime</p>
       </div>
@@ -360,7 +496,7 @@ function Resources() {
         <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible pb-4 md:pb-0"
           style={{ scrollSnapType: "x mandatory" }}>
           {tools.map((tool) => (
-            <a key={tool.name} href={tool.url} target="_blank" rel="noopener noreferrer"
+            <a key={tool.name} href="#hero"
               className="group flex-shrink-0 w-72 md:w-auto block rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
               style={{ scrollSnapAlign: "start" }}>
               {/* Card header with gradient */}
@@ -488,10 +624,11 @@ function Footer() {
 }
 
 export default function HomePage() {
+  const [showDemo, setShowDemo] = useState(false);
   return (
     <main>
       <Nav />
-      <Hero />
+      <Hero onDemo={() => setShowDemo(true)} />
       <Stats />
       <Features />
       <HowItWorks />
@@ -500,6 +637,7 @@ export default function HomePage() {
       <FAQ />
       <CTA />
       <Footer />
+      {showDemo && <DemoPopup onClose={() => setShowDemo(false)} />}
     </main>
   );
 }
