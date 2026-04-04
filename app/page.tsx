@@ -335,6 +335,9 @@ function Pricing() {
         "Full theme customizer",
         "WhatsApp notifications",
         "After trial: auto-downgrade to Basic",
+        "Landing pages (3 templates)",
+        "Upload Video Testimonials",
+        "Upload Audio Testimonials",
       ],
     },
     {
@@ -355,6 +358,9 @@ function Pricing() {
         "Email support",
         "Basic analytics",
         "Colors + logo customizer",
+        "Landing pages (3 templates)",
+        "Upload Video Testimonials",
+        "Upload Audio Testimonials",
       ],
     },
     {
@@ -379,6 +385,9 @@ function Pricing() {
         "Stripe + PayPal payments",
         "Abandoned cart recovery",
         "Unlimited bundles",
+        "Landing pages (unlimited)",
+        "Upload Video Testimonials",
+        "Upload Audio Testimonials",
       ],
     },
   ];
