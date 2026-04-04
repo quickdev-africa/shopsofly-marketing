@@ -147,34 +147,34 @@ function SignupContent() {
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">First Name</label>
                   <input name="first_name" value={form.first_name} onChange={handleChange} placeholder="John" type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-gray-900" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Last Name</label>
                   <input name="last_name" value={form.last_name} onChange={handleChange} placeholder="Doe" type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-gray-900" />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Email Address</label>
                 <input name="email" value={form.email} onChange={handleChange} placeholder="john@example.com" type="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-gray-900" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Phone Number</label>
                 <input name="phone" value={form.phone} onChange={handleChange} placeholder="08012345678" type="tel"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-gray-900" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Store Name</label>
                 <input name="store_name" value={form.store_name} onChange={handleChange} placeholder="My Amazing Store" type="text"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] text-gray-900" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Store URL</label>
                 <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#4A7C59]">
                   <input name="subdomain" value={form.subdomain} onChange={handleChange} placeholder="mystore" type="text"
-                    className="flex-1 px-4 py-3 text-sm outline-none" />
+                    className="flex-1 px-4 py-3 text-sm outline-none text-gray-900" />
                   <span className="bg-gray-50 px-3 py-3 text-sm text-gray-500 border-l border-gray-300 whitespace-nowrap">.shopsofly.com</span>
                 </div>
               </div>
