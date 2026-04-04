@@ -42,7 +42,7 @@ function Hero() {
         </h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
           Nigeria&apos;s most powerful ecommerce platform. Accept Paystack, bank transfer, and cash on delivery.
-          Start your 21-day free trial for just ₦2,000.
+          Start your 21-day trial for just ₦2,000 activation.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <a href="#pricing"
@@ -146,7 +146,7 @@ function HowItWorks() {
 function Pricing() {
   const plans = [
     {
-      name: "21-Day Free Trial",
+      name: "21-Day Trial",
       price: "₦2,000",
       period: "one-time activation",
       highlight: true,
