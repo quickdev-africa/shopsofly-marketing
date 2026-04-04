@@ -314,13 +314,18 @@ function HowItWorks() {
 }
 
 function Pricing() {
+  const [yearly, setYearly] = useState(false);
+
   const plans = [
     {
       name: "21-Day Trial",
-      price: "₦2,000",
-      period: "one-time activation",
+      monthlyPrice: 2000,
+      yearlyPrice: null,
+      yearlyDiscount: null,
+      yearlySaving: null,
       highlight: true,
-      cta: "Activate Your Store — ₦2,000",
+      cta: "Activate Your Store",
+      href: "/signup",
       badge: "START HERE",
       features: [
         "21 days full platform access",
@@ -334,10 +339,13 @@ function Pricing() {
     },
     {
       name: "Basic",
-      price: "₦5,500",
-      period: "per month",
+      monthlyPrice: 5500,
+      yearlyPrice: 58740,
+      yearlyDiscount: 9,
+      yearlySaving: 7260,
       highlight: false,
       cta: "Choose Basic",
+      href: "/signup?plan=basic",
       badge: null,
       features: [
         "Up to 20 products",
@@ -351,10 +359,13 @@ function Pricing() {
     },
     {
       name: "Standard",
-      price: "₦12,500",
-      period: "per month",
+      monthlyPrice: 12500,
+      yearlyPrice: 132000,
+      yearlyDiscount: 12,
+      yearlySaving: 18000,
       highlight: false,
       cta: "Choose Standard",
+      href: "/signup?plan=standard",
       badge: "BEST VALUE",
       features: [
         "Unlimited products",
@@ -375,154 +386,75 @@ function Pricing() {
   return (
     <section id="pricing" className="py-20 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
           <h2 className="font-black text-4xl md:text-5xl text-[#1A1A1A] mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-black text-lg">Start 21-Day Trial. Upgrade when you&apos;re ready to Basic or Standard.</p>
+          <p className="text-black text-lg mb-8">Start 21-Day Trial. Upgrade when you&apos;re ready to Basic or Standard.</p>
+          <div className="inline-flex items-center bg-gray-100 rounded-2xl p-1 gap-1">
+            <button onClick={() => setYearly(false)}
+              className={"px-5 py-2 rounded-xl text-sm font-bold transition-all " + (!yearly ? "bg-white shadow text-[#1A1A1A]" : "text-gray-500")}>
+              Monthly
+            </button>
+            <button onClick={() => setYearly(true)}
+              className={"px-5 py-2 rounded-xl text-sm font-bold transition-all " + (yearly ? "bg-white shadow text-[#1A1A1A]" : "text-gray-500")}>
+              Yearly <span className="ml-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">Save up to 12%</span>
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {plans.map((plan) => (
-            <div key={plan.name} className={"rounded-2xl p-8 border-2 relative " + (
-              plan.highlight ? "border-[#F97316] shadow-xl shadow-orange-100 scale-105" : "border-gray-200"
-            )}>
-              {plan.badge && (
-                <div className={"absolute -top-4 left-1/2 -translate-x-1/2 text-xs font-black px-4 py-1.5 rounded-full " + (
-                  plan.highlight ? "bg-[#F97316] text-white" : "bg-[#4A7C59] text-white"
-                )}>
-                  {plan.badge}
+          {plans.map((plan: any) => {
+            const showYearly = yearly && plan.yearlyPrice;
+            const displayPrice = showYearly ? plan.yearlyPrice : plan.monthlyPrice;
+            const displayPeriod = showYearly ? "per year" : plan.name === "21-Day Trial" ? "one-time" : "per month";
+            return (
+              <div key={plan.name} className={"rounded-2xl p-8 border-2 relative " + (
+                plan.highlight ? "border-[#F97316] shadow-xl shadow-orange-100 scale-105" : "border-gray-200"
+              )}>
+                {plan.badge && (
+                  <div className={"absolute -top-4 left-1/2 -translate-x-1/2 text-xs font-black px-4 py-1.5 rounded-full " + (
+                    plan.highlight ? "bg-[#F97316] text-white" : "bg-[#4A7C59] text-white"
+                  )}>
+                    {plan.badge}
+                  </div>
+                )}
+                <h3 className="font-black text-xl text-[#1A1A1A] mb-2">{plan.name}</h3>
+                <div className="mb-2">
+                  {showYearly && (
+                    <p className="text-gray-400 line-through text-sm mb-1">₦{(plan.monthlyPrice * 12).toLocaleString()}/year</p>
+                  )}
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-black text-[#1A1A1A]">₦{displayPrice.toLocaleString()}</span>
+                    <span className="text-black text-sm">{displayPeriod}</span>
+                  </div>
+                  {showYearly && plan.yearlySaving && (
+                    <p className="text-green-600 text-sm font-bold mt-1">
+                      🎉 Save ₦{plan.yearlySaving.toLocaleString()} ({plan.yearlyDiscount}% off)
+                    </p>
+                  )}
                 </div>
-              )}
-              <h3 className="font-black text-xl text-[#1A1A1A] mb-2">{plan.name}</h3>
-              <div className="mb-6">
-                <span className="text-4xl font-black text-[#1A1A1A]">{plan.price}</span>
-                <span className="text-black text-sm ml-2">{plan.period}</span>
+                <a href={plan.href}
+                  className={"block text-center font-bold py-3 rounded-xl mb-8 mt-6 transition-colors " + (
+                    plan.highlight
+                      ? "bg-[#F97316] hover:bg-orange-600 text-white"
+                      : "bg-[#4A7C59] hover:bg-[#2D4A32] text-white"
+                  )}>
+                  {plan.cta}
+                </a>
+                <ul className="space-y-3">
+                  {plan.features.map((f: string) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-black">
+                      <span className="text-[#4A7C59] font-bold mt-0.5">✓</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <a href="/signup"
-                className={"block text-center font-bold py-3 rounded-xl mb-8 transition-colors " + (
-                  plan.highlight
-                    ? "bg-[#F97316] hover:bg-orange-600 text-white"
-                    : "bg-[#4A7C59] hover:bg-[#2D4A32] text-white"
-                )}>
-                {plan.cta}
-              </a>
-              <ul className="space-y-3">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm text-black">
-                    <span className="text-[#4A7C59] font-bold mt-0.5">✓</span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
-
-
-function Resources() {
-  const tools = [
-    {
-      name: "Verpex",
-      category: "Domain Name",
-      desc: "Reliable web hosting and domain registration with 99.9% uptime, perfect for getting your store online with a professional address.",
-      logo: "https://www.verpex.com/assets/images/logo/verpex-logo.svg",
-      fallback: "🌐",
-      url: "https://verpex.com",
-      color: "from-blue-500 to-blue-600",
-    },
-    {
-      name: "Postscript",
-      category: "SMS & FB Marketing",
-      desc: "Drive repeat purchases with targeted SMS campaigns and Facebook retargeting. Turn your customer list into a revenue engine.",
-      logo: "",
-      fallback: "📱",
-      url: "https://postscript.io",
-      color: "from-purple-500 to-purple-600",
-    },
-    {
-      name: "Outlinematic",
-      category: "Logo & Packaging",
-      desc: "Create professional logos, brand identities, and product packaging designs that make your business stand out on shelves and online.",
-      logo: "",
-      fallback: "🎨",
-      url: "https://outlinematic.com",
-      color: "from-pink-500 to-rose-500",
-    },
-    {
-      name: "Paystack",
-      category: "Payment Gateway",
-      desc: "Nigeria\'s leading payment gateway. Accept cards, bank transfers, USSD, and mobile money from customers across Africa.",
-      logo: "https://paystack.com/assets/img/paystack-logo.svg",
-      fallback: "💳",
-      url: "https://paystack.com",
-      color: "from-[#00C3F7] to-[#0096FF]",
-    },
-    {
-      name: "GIG Logistics",
-      category: "Shipping & Delivery",
-      desc: "Fast and reliable delivery across all 36 Nigerian states. Real-time tracking, same-day delivery in Lagos, and affordable rates.",
-      logo: "",
-      fallback: "🚚",
-      url: "https://giglogistics.com",
-      color: "from-orange-500 to-amber-500",
-    },
-    {
-      name: "BGRemover",
-      category: "Image Editing",
-      desc: "Instantly remove backgrounds from product photos with AI. Create clean, professional product images that boost conversions.",
-      logo: "",
-      fallback: "🖼️",
-      url: "https://bgremover.com",
-      color: "from-green-500 to-teal-500",
-    },
-  ];
-
-  return (
-    <section id="resources" className="py-20 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-[#4A7C59]/10 text-[#4A7C59] text-sm font-semibold px-4 py-2 rounded-full mb-4">
-            🛠️ Recommended Tools
-          </div>
-          <h2 className="font-black text-4xl md:text-5xl text-[#1A1A1A] mb-4">Tools to Grow Your Business</h2>
-          <p className="text-black text-lg max-w-2xl mx-auto">
-            Hand-picked tools that work seamlessly with Shopsofly to help you build, market, and scale your online store.
-          </p>
-        </div>
-
-        {/* Desktop grid / Mobile horizontal scroll */}
-        <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible pb-4 md:pb-0"
-          style={{ scrollSnapType: "x mandatory" }}>
-          {tools.map((tool) => (
-            <a key={tool.name} href="#hero"
-              className="group flex-shrink-0 w-72 md:w-auto block rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
-              style={{ scrollSnapAlign: "start" }}>
-              {/* Card header with gradient */}
-              <div className={"bg-gradient-to-br " + tool.color + " p-6 flex items-center justify-between"}>
-                <div>
-                  <p className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-1">{tool.category}</p>
-                  <h3 className="text-white font-black text-xl">{tool.name}</h3>
-                </div>
-                <div className="text-4xl opacity-90">{tool.fallback}</div>
-              </div>
-              {/* Card body */}
-              <div className="p-5 bg-white">
-                <p className="text-black text-sm leading-relaxed">{tool.desc}</p>
-                <div className="mt-4 flex items-center text-sm font-semibold text-[#4A7C59] group-hover:gap-2 transition-all">
-                  <span>Visit {tool.name}</span>
-                  <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function FAQ() {
   const faqs = [
     { q: "What happens after my 21-day trial?", a: "After 21 days, your store auto-downgrades to the Basic plan at ₦5,500/month. You will receive reminder emails on day 14, 18, and 21 to upgrade." },

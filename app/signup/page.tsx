@@ -1,14 +1,33 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://robust-annmaria-laserstarglobal-813df33a.koyeb.app";
 
-export default function SignupPage() {
+const PLANS: Record<string, any> = {
+  trial: { name: "21-Day Trial", monthlyPrice: 2000, label: "one-time activation" },
+  basic: { name: "Basic", monthlyPrice: 5500, yearlyPrice: 58740, label: "per month" },
+  standard: { name: "Standard", monthlyPrice: 12500, yearlyPrice: 132000, label: "per month" },
+};
+
+const DURATIONS = [
+  { months: 1, label: "1 Month", discount: 0 },
+  { months: 3, label: "3 Months", discount: 0 },
+  { months: 6, label: "6 Months", discount: 0 },
+  { months: 12, label: "12 Months", discount: 1, badge: "Best Value" },
+];
+
+function SignupContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const planKey = searchParams.get("plan") || "trial";
+  const plan = PLANS[planKey] || PLANS.trial;
+  const isTrial = planKey === "trial";
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [duration, setDuration] = useState(1);
   const [form, setForm] = useState({
     first_name: "", last_name: "", email: "", phone: "",
     store_name: "", subdomain: "",
@@ -18,12 +37,28 @@ export default function SignupPage() {
     const { name, value } = e.target;
     setForm(prev => {
       const updated = { ...prev, [name]: value };
-      // Auto-generate subdomain from store name
       if (name === "store_name") {
         updated.subdomain = value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
       }
       return updated;
     });
+  }
+
+  function getPrice() {
+    if (isTrial) return 2000;
+    if (duration === 12 && plan.yearlyPrice) return plan.yearlyPrice;
+    return plan.monthlyPrice * duration;
+  }
+
+  function getSaving() {
+    if (isTrial || duration !== 12 || !plan.yearlyPrice) return 0;
+    return (plan.monthlyPrice * 12) - plan.yearlyPrice;
+  }
+
+  function getSubheading() {
+    if (isTrial) return "Create Your Store • ₦2,000 activation • Store ready in minutes";
+    if (planKey === "basic") return "Create Your Store • ₦5,500/month • Store ready in minutes";
+    return "Create Your Store • ₦12,500/month • Store ready in minutes";
   }
 
   async function handleSubmit() {
@@ -34,17 +69,17 @@ export default function SignupPage() {
     setLoading(true);
     setError("");
     try {
+      const amount = getPrice() * 100; // kobo
       const res = await fetch(`${API_URL}/api/v2/platform/merchant_onboarding/initialize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, amount_override: amount, plan: planKey, duration_months: duration }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
-      // Redirect to Paystack
       window.location.href = data.authorization_url;
     } catch (err: any) {
-      setError(err.message || "Failed to initialize payment. Try again.");
+      setError(err.message || "Failed. Try again.");
       setLoading(false);
     }
   }
@@ -52,7 +87,6 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#E8F0E9] via-white to-orange-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
-        {/* Logo */}
         <div className="text-center mb-8">
           <a href="/" className="inline-flex items-center gap-2">
             <div className="w-10 h-10 bg-[#4A7C59] rounded-xl flex items-center justify-center">
@@ -60,8 +94,10 @@ export default function SignupPage() {
             </div>
             <span className="font-black text-2xl text-[#1A1A1A]">Shopsofly</span>
           </a>
-          <h1 className="text-2xl font-black text-[#1A1A1A] mt-4">Create Your Store</h1>
-          <p className="text-gray-500 mt-1">21-day trial • ₦2,000 activation • Store ready in minutes</p>
+          <h1 className="text-2xl font-black text-[#1A1A1A] mt-4">
+            {isTrial ? "Activate Your Store" : `${plan.name} Plan`}
+          </h1>
+          <p className="text-gray-600 mt-1 text-sm">{getSubheading()}</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
@@ -85,48 +121,39 @@ export default function SignupPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">First Name</label>
-                  <input name="first_name" value={form.first_name} onChange={handleChange}
-                    placeholder="John" type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] focus:border-transparent" />
+                  <input name="first_name" value={form.first_name} onChange={handleChange} placeholder="John" type="text"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Last Name</label>
-                  <input name="last_name" value={form.last_name} onChange={handleChange}
-                    placeholder="Doe" type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] focus:border-transparent" />
+                  <input name="last_name" value={form.last_name} onChange={handleChange} placeholder="Doe" type="text"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Email Address</label>
-                <input name="email" value={form.email} onChange={handleChange}
-                  placeholder="john@example.com" type="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] focus:border-transparent" />
+                <input name="email" value={form.email} onChange={handleChange} placeholder="john@example.com" type="email"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Phone Number</label>
-                <input name="phone" value={form.phone} onChange={handleChange}
-                  placeholder="08012345678" type="tel"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] focus:border-transparent" />
+                <input name="phone" value={form.phone} onChange={handleChange} placeholder="08012345678" type="tel"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Store Name</label>
-                <input name="store_name" value={form.store_name} onChange={handleChange}
-                  placeholder="My Amazing Store" type="text"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59] focus:border-transparent" />
+                <input name="store_name" value={form.store_name} onChange={handleChange} placeholder="My Amazing Store" type="text"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#4A7C59]" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1.5">Store URL</label>
                 <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-[#4A7C59]">
-                  <input name="subdomain" value={form.subdomain} onChange={handleChange}
-                    placeholder="mystore" type="text"
+                  <input name="subdomain" value={form.subdomain} onChange={handleChange} placeholder="mystore" type="text"
                     className="flex-1 px-4 py-3 text-sm outline-none" />
                   <span className="bg-gray-50 px-3 py-3 text-sm text-gray-500 border-l border-gray-300 whitespace-nowrap">.shopsofly.com</span>
                 </div>
-                <p className="text-xs text-gray-400 mt-1">Your store will be at {form.subdomain || "yourstore"}.shopsofly.com</p>
               </div>
-
               {error && <p className="text-red-500 text-sm bg-red-50 px-4 py-3 rounded-xl">{error}</p>}
-
               <button onClick={() => setStep(2)}
                 className="w-full bg-[#4A7C59] hover:bg-[#2D4A32] text-white font-bold py-4 rounded-xl text-base transition-colors">
                 Continue →
@@ -135,7 +162,36 @@ export default function SignupPage() {
           )}
 
           {step === 2 && (
-            <div className="space-y-6">
+            <div className="space-y-5">
+              {/* Duration selector - only for paid plans */}
+              {!isTrial && (
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Select Duration</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {DURATIONS.map((d) => {
+                      const price = d.months === 12 && plan.yearlyPrice ? plan.yearlyPrice : plan.monthlyPrice * d.months;
+                      const saving = d.months === 12 && plan.yearlyPrice ? (plan.monthlyPrice * 12) - plan.yearlyPrice : 0;
+                      return (
+                        <button key={d.months} onClick={() => setDuration(d.months)}
+                          className={"p-3 border-2 rounded-xl text-left transition-all relative " + (
+                            duration === d.months ? "border-[#4A7C59] bg-[#E8F0E9]" : "border-gray-200 hover:border-gray-300"
+                          )}>
+                          {d.badge && (
+                            <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                              {d.badge}
+                            </span>
+                          )}
+                          <p className="font-bold text-sm text-gray-900">{d.label}</p>
+                          <p className="font-black text-[#4A7C59]">₦{price.toLocaleString()}</p>
+                          {saving > 0 && <p className="text-xs text-green-600 font-semibold">Save ₦{saving.toLocaleString()}</p>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Order Summary */}
               <div className="bg-[#E8F0E9] rounded-2xl p-5">
                 <h3 className="font-bold text-[#1A1A1A] mb-3">Order Summary</h3>
                 <div className="space-y-2 text-sm">
@@ -144,16 +200,24 @@ export default function SignupPage() {
                     <span className="font-semibold text-gray-900">{form.store_name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Store URL</span>
-                    <span className="font-semibold text-gray-900">{form.subdomain}.shopsofly.com</span>
+                    <span className="text-gray-600">Plan</span>
+                    <span className="font-semibold text-gray-900">{plan.name}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Email</span>
-                    <span className="font-semibold text-gray-900">{form.email}</span>
-                  </div>
+                  {!isTrial && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Duration</span>
+                      <span className="font-semibold text-gray-900">{duration} month{duration > 1 ? "s" : ""}</span>
+                    </div>
+                  )}
+                  {getSaving() > 0 && (
+                    <div className="flex justify-between text-green-600">
+                      <span className="font-semibold">You Save</span>
+                      <span className="font-bold">₦{getSaving().toLocaleString()}</span>
+                    </div>
+                  )}
                   <div className="border-t border-[#4A7C59]/20 pt-2 mt-2 flex justify-between font-bold">
-                    <span>21-Day Trial Activation</span>
-                    <span className="text-[#4A7C59]">₦2,000</span>
+                    <span>Total</span>
+                    <span className="text-[#4A7C59] text-lg">₦{getPrice().toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -164,7 +228,7 @@ export default function SignupPage() {
                   <li>• Your store is created instantly</li>
                   <li>• 10 demo products are loaded automatically</li>
                   <li>• You receive an email to set your password</li>
-                  <li>• 21 days full access begins immediately</li>
+                  {isTrial && <li>• 21 days full access begins immediately</li>}
                 </ul>
               </div>
 
@@ -172,14 +236,13 @@ export default function SignupPage() {
 
               <button onClick={handleSubmit} disabled={loading}
                 className="w-full bg-[#F97316] hover:bg-orange-600 text-white font-black py-4 rounded-xl text-base transition-colors disabled:opacity-60 shadow-lg">
-                {loading ? "Redirecting to Paystack..." : "Pay ₦2,000 & Activate Store →"}
+                {loading ? "Redirecting to Paystack..." : `Pay ₦${getPrice().toLocaleString()} →`}
               </button>
 
               <button onClick={() => setStep(1)} className="w-full text-gray-500 text-sm hover:text-gray-700">
                 ← Back to edit details
               </button>
-
-              <p className="text-center text-xs text-gray-400">🔒 Secured by Paystack. Your payment is safe.</p>
+              <p className="text-center text-xs text-gray-400">🔒 Secured by Paystack</p>
             </div>
           )}
         </div>
@@ -190,5 +253,13 @@ export default function SignupPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-gray-400">Loading...</p></div>}>
+      <SignupContent />
+    </Suspense>
   );
 }
