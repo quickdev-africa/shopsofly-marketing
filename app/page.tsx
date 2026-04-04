@@ -243,7 +243,7 @@ function Stats() {
         {stats.map((s) => (
           <div key={s.label}>
             <p className="text-3xl md:text-4xl font-black text-[#F97316]">{s.value}</p>
-            <p className="text-black text-sm mt-1">{s.label}</p>
+            <p className="text-white text-sm mt-1">{s.label}</p>
           </div>
         ))}
       </div>
