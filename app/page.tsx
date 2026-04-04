@@ -158,7 +158,7 @@ function Nav() {
           <a href="#resources" className="hover:text-[#4A7C59] transition-colors">Resources</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
-          <a href="https://shopsofly-merchant.vercel.app/login" className="text-sm font-semibold text-gray-700 hover:text-[#4A7C59]">Login</a>
+          <a href="https://app.shopsofly.com" className="text-sm font-semibold text-gray-700 hover:text-[#4A7C59]">Login</a>
           <a href="/signup" className="bg-[#F97316] hover:bg-orange-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors whitespace-nowrap">
             Get Started
           </a>
@@ -189,7 +189,7 @@ function Nav() {
           <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">How It Works</a>
           <a href="#faq" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">FAQ</a>
           <a href="#resources" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Resources</a>
-          <a href="https://shopsofly-merchant.vercel.app/login" className="block text-sm font-semibold text-gray-700">Login →</a>
+          <a href="https://app.shopsofly.com" className="block text-sm font-semibold text-gray-700">Login →</a>
           <a href="/signup" onClick={() => setMenuOpen(false)}
             className="block bg-[#F97316] text-white text-sm font-bold px-4 py-3 rounded-xl text-center">
             Activate Your Store — ₦2,000
@@ -582,7 +582,7 @@ function Footer() {
             <p className="font-bold text-white mb-3 text-sm">Account</p>
             <ul className="space-y-2 text-sm">
               <li><a href="/signup" className="hover:text-white transition-colors">Create Store</a></li>
-              <li><a href="https://shopsofly-merchant.vercel.app/login" className="hover:text-white transition-colors">Merchant Login</a></li>
+              <li><a href="https://app.shopsofly.com" className="hover:text-white transition-colors">Merchant Login</a></li>
             </ul>
           </div>
           <div>

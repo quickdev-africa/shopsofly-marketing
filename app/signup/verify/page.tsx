@@ -67,7 +67,7 @@ function VerifyContent() {
           className="bg-[#4A7C59] text-white px-6 py-3 rounded-xl font-semibold">
           Visit My Store →
         </a>
-        <a href="https://shopsofly-merchant.vercel.app/login"
+        <a href="https://app.shopsofly.com"
           className="bg-[#F97316] text-white px-6 py-3 rounded-xl font-semibold">
           Go to Merchant Portal →
         </a>

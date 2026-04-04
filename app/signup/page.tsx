@@ -274,7 +274,7 @@ function SignupContent() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have a store?{" "}
-          <a href="https://shopsofly-merchant.vercel.app/login" className="text-[#4A7C59] font-semibold hover:underline">Login here</a>
+          <a href="https://app.shopsofly.com" className="text-[#4A7C59] font-semibold hover:underline">Login here</a>
         </p>
       </div>
     </div>
