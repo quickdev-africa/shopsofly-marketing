@@ -15,19 +15,20 @@ function Nav() {
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
           <a href="#features" className="hover:text-[#4A7C59] transition-colors">Features</a>
-          <a href="#pricing" className="hover:text-[#4A7C59] transition-colors">Pricing</a>
+          <a href="/signup" className="hover:text-[#4A7C59] transition-colors">Pricing</a>
           <a href="#how-it-works" className="hover:text-[#4A7C59] transition-colors">How It Works</a>
           <a href="#faq" className="hover:text-[#4A7C59] transition-colors">FAQ</a>
+          <a href="#resources" className="hover:text-[#4A7C59] transition-colors">Resources</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
           <a href="https://shopsofly-merchant.vercel.app/login" className="text-sm font-semibold text-gray-700 hover:text-[#4A7C59]">Login</a>
-          <a href="#pricing" className="bg-[#F97316] hover:bg-orange-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors whitespace-nowrap">
+          <a href="/signup" className="bg-[#F97316] hover:bg-orange-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors whitespace-nowrap">
             Get Started
           </a>
         </div>
         {/* Mobile right side */}
         <div className="flex md:hidden items-center gap-3">
-          <a href="#pricing" className="bg-[#F97316] text-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap">
+          <a href="/signup" className="bg-[#F97316] text-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap">
             Sign Up
           </a>
           <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-lg hover:bg-gray-100">
@@ -47,13 +48,14 @@ function Nav() {
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-4">
           <a href="#features" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Features</a>
-          <a href="#pricing" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Pricing</a>
+          <a href="/signup" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Pricing</a>
           <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">How It Works</a>
           <a href="#faq" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">FAQ</a>
+          <a href="#resources" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Resources</a>
           <a href="https://shopsofly-merchant.vercel.app/login" className="block text-sm font-semibold text-gray-700">Login →</a>
-          <a href="#pricing" onClick={() => setMenuOpen(false)}
+          <a href="/signup" onClick={() => setMenuOpen(false)}
             className="block bg-[#F97316] text-white text-sm font-bold px-4 py-3 rounded-xl text-center">
-            Sign Up — Activate Your Store
+            Activate Your Store — ₦2,000
           </a>
         </div>
       )}
@@ -77,9 +79,9 @@ function Hero() {
           Start your 21-day trial for just ₦2,000 activation.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <a href="#pricing"
+          <a href="/signup"
             className="bg-[#F97316] hover:bg-orange-600 text-white font-black px-8 py-4 rounded-2xl text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">
-            Activate Your Store — ₦2,000 Activation
+            Activate Your Store — ₦2,000
           </a>
           <a href="#how-it-works"
             className="bg-white hover:bg-gray-50 text-gray-800 font-bold px-8 py-4 rounded-2xl text-lg border-2 border-gray-200 transition-colors">
@@ -130,7 +132,7 @@ function Features() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="font-black text-4xl md:text-5xl text-[#1A1A1A] mb-4">Everything You Need to Sell Online</h2>
-          <p className="text-gray-500 text-lg max-w-2xl mx-auto">One platform. All the tools. Built specifically for Nigerian merchants.</p>
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto">One platform. All the tools. Built specifically to help Merchants convert.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f) => (
@@ -239,7 +241,7 @@ function Pricing() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="font-black text-4xl md:text-5xl text-[#1A1A1A] mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-gray-500 text-lg">Start free. Upgrade when you&apos;re ready.</p>
+          <p className="text-gray-500 text-lg">Start 21-Day Trial. Upgrade when you&apos;re ready to Basic or Standard.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {plans.map((plan) => (
@@ -275,6 +277,109 @@ function Pricing() {
                 ))}
               </ul>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+function Resources() {
+  const tools = [
+    {
+      name: "Verpex",
+      category: "Domain Name",
+      desc: "Reliable web hosting and domain registration with 99.9% uptime, perfect for getting your store online with a professional address.",
+      logo: "https://www.verpex.com/assets/images/logo/verpex-logo.svg",
+      fallback: "🌐",
+      url: "https://verpex.com",
+      color: "from-blue-500 to-blue-600",
+    },
+    {
+      name: "Postscript",
+      category: "SMS & FB Marketing",
+      desc: "Drive repeat purchases with targeted SMS campaigns and Facebook retargeting. Turn your customer list into a revenue engine.",
+      logo: "",
+      fallback: "📱",
+      url: "https://postscript.io",
+      color: "from-purple-500 to-purple-600",
+    },
+    {
+      name: "Outlinematic",
+      category: "Logo & Packaging",
+      desc: "Create professional logos, brand identities, and product packaging designs that make your business stand out on shelves and online.",
+      logo: "",
+      fallback: "🎨",
+      url: "https://outlinematic.com",
+      color: "from-pink-500 to-rose-500",
+    },
+    {
+      name: "Paystack",
+      category: "Payment Gateway",
+      desc: "Nigeria\'s leading payment gateway. Accept cards, bank transfers, USSD, and mobile money from customers across Africa.",
+      logo: "https://paystack.com/assets/img/paystack-logo.svg",
+      fallback: "💳",
+      url: "https://paystack.com",
+      color: "from-[#00C3F7] to-[#0096FF]",
+    },
+    {
+      name: "GIG Logistics",
+      category: "Shipping & Delivery",
+      desc: "Fast and reliable delivery across all 36 Nigerian states. Real-time tracking, same-day delivery in Lagos, and affordable rates.",
+      logo: "",
+      fallback: "🚚",
+      url: "https://giglogistics.com",
+      color: "from-orange-500 to-amber-500",
+    },
+    {
+      name: "BGRemover",
+      category: "Image Editing",
+      desc: "Instantly remove backgrounds from product photos with AI. Create clean, professional product images that boost conversions.",
+      logo: "",
+      fallback: "🖼️",
+      url: "https://bgremover.com",
+      color: "from-green-500 to-teal-500",
+    },
+  ];
+
+  return (
+    <section id="resources" className="py-20 px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 bg-[#4A7C59]/10 text-[#4A7C59] text-sm font-semibold px-4 py-2 rounded-full mb-4">
+            🛠️ Recommended Tools
+          </div>
+          <h2 className="font-black text-4xl md:text-5xl text-[#1A1A1A] mb-4">Tools to Grow Your Business</h2>
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+            Hand-picked tools that work seamlessly with Shopsofly to help you build, market, and scale your online store.
+          </p>
+        </div>
+
+        {/* Desktop grid / Mobile horizontal scroll */}
+        <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible pb-4 md:pb-0"
+          style={{ scrollSnapType: "x mandatory" }}>
+          {tools.map((tool) => (
+            <a key={tool.name} href={tool.url} target="_blank" rel="noopener noreferrer"
+              className="group flex-shrink-0 w-72 md:w-auto block rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              style={{ scrollSnapAlign: "start" }}>
+              {/* Card header with gradient */}
+              <div className={"bg-gradient-to-br " + tool.color + " p-6 flex items-center justify-between"}>
+                <div>
+                  <p className="text-white/80 text-xs font-semibold uppercase tracking-wider mb-1">{tool.category}</p>
+                  <h3 className="text-white font-black text-xl">{tool.name}</h3>
+                </div>
+                <div className="text-4xl opacity-90">{tool.fallback}</div>
+              </div>
+              {/* Card body */}
+              <div className="p-5 bg-white">
+                <p className="text-gray-600 text-sm leading-relaxed">{tool.desc}</p>
+                <div className="mt-4 flex items-center text-sm font-semibold text-[#4A7C59] group-hover:gap-2 transition-all">
+                  <span>Visit {tool.name}</span>
+                  <span className="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </div>
+            </a>
           ))}
         </div>
       </div>
@@ -324,10 +429,10 @@ function CTA() {
     <section className="py-20 px-6 bg-[#1A1A1A] text-white text-center">
       <div className="max-w-3xl mx-auto">
         <h2 className="font-black text-4xl md:text-5xl mb-4">Ready to Start Selling?</h2>
-        <p className="text-gray-300 text-lg mb-8">Join hundreds of Nigerian businesses selling online with Shopsofly.</p>
+        <p className="text-gray-300 text-lg mb-8">Join serious businesses selling online with Shopsofly.</p>
         <a href="/signup"
           className="inline-block bg-[#F97316] hover:bg-orange-600 text-white font-black px-10 py-4 rounded-2xl text-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">
-          Activate Your Store — ₦2,000 — ₦2,000
+          Activate Your Store — ₦2,000
         </a>
         <p className="text-gray-500 text-sm mt-4">21 days full access • Powered by Paystack • Cancel anytime</p>
       </div>
@@ -353,7 +458,7 @@ function Footer() {
             <p className="font-bold text-white mb-3 text-sm">Platform</p>
             <ul className="space-y-2 text-sm">
               <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+              <li><a href="/signup" className="hover:text-white transition-colors">Pricing</a></li>
               <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
             </ul>
           </div>
@@ -391,6 +496,7 @@ export default function HomePage() {
       <Features />
       <HowItWorks />
       <Pricing />
+      <Resources />
       <FAQ />
       <CTA />
       <Footer />
