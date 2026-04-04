@@ -21,7 +21,7 @@ function Nav() {
         <div className="flex items-center gap-3">
           <a href="https://shopsofly-merchant.vercel.app/login" className="text-sm font-semibold text-gray-700 hover:text-[#4A7C59]">Login</a>
           <a href="#pricing" className="bg-[#F97316] hover:bg-orange-600 text-white text-sm font-bold px-4 py-2 rounded-xl transition-colors">
-            Start Free Trial
+            Activate Your Store — ₦2,000
           </a>
         </div>
       </div>
@@ -47,7 +47,7 @@ function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <a href="#pricing"
             className="bg-[#F97316] hover:bg-orange-600 text-white font-black px-8 py-4 rounded-2xl text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">
-            Start Free — ₦2,000 Activation
+            Activate Your Store — ₦2,000 Activation
           </a>
           <a href="#how-it-works"
             className="bg-white hover:bg-gray-50 text-gray-800 font-bold px-8 py-4 rounded-2xl text-lg border-2 border-gray-200 transition-colors">
@@ -150,7 +150,7 @@ function Pricing() {
       price: "₦2,000",
       period: "one-time activation",
       highlight: true,
-      cta: "Start Free Trial",
+      cta: "Activate Your Store — ₦2,000",
       badge: "START HERE",
       features: [
         "21 days full platform access",
@@ -295,7 +295,7 @@ function CTA() {
         <p className="text-gray-300 text-lg mb-8">Join hundreds of Nigerian businesses selling online with Shopsofly.</p>
         <a href="/signup"
           className="inline-block bg-[#F97316] hover:bg-orange-600 text-white font-black px-10 py-4 rounded-2xl text-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">
-          Start Free Trial — ₦2,000
+          Activate Your Store — ₦2,000 — ₦2,000
         </a>
         <p className="text-gray-500 text-sm mt-4">21 days full access • Powered by Paystack • Cancel anytime</p>
       </div>
