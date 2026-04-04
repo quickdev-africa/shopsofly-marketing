@@ -116,6 +116,31 @@ function SignupContent() {
             ))}
           </div>
 
+          {/* Plan Switcher */}
+          <div className="mb-6 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Switch Plan</p>
+            <div className="flex gap-2 flex-wrap">
+              <a href="/signup"
+                className={"flex-1 text-center text-xs font-bold py-2 px-3 rounded-xl border-2 transition-colors " + (
+                  planKey === "trial" ? "border-[#F97316] bg-orange-50 text-[#F97316]" : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}>
+                Trial<br/><span className="font-black">₦2,000</span>
+              </a>
+              <a href="/signup?plan=basic"
+                className={"flex-1 text-center text-xs font-bold py-2 px-3 rounded-xl border-2 transition-colors " + (
+                  planKey === "basic" ? "border-[#4A7C59] bg-green-50 text-[#4A7C59]" : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}>
+                Basic<br/><span className="font-black">₦5,500/mo</span>
+              </a>
+              <a href="/signup?plan=standard"
+                className={"flex-1 text-center text-xs font-bold py-2 px-3 rounded-xl border-2 transition-colors " + (
+                  planKey === "standard" ? "border-[#4A7C59] bg-green-50 text-[#4A7C59]" : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}>
+                Standard<br/><span className="font-black">₦12,500/mo</span>
+              </a>
+            </div>
+          </div>
+
           {step === 1 && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
