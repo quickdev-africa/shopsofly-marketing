@@ -28,7 +28,7 @@ function Nav() {
         {/* Mobile right side */}
         <div className="flex md:hidden items-center gap-3">
           <a href="#pricing" className="bg-[#F97316] text-white text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap">
-            ₦2,000
+            Sign Up
           </a>
           <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-lg hover:bg-gray-100">
             {menuOpen ? (
@@ -53,7 +53,7 @@ function Nav() {
           <a href="https://shopsofly-merchant.vercel.app/login" className="block text-sm font-semibold text-gray-700">Login →</a>
           <a href="#pricing" onClick={() => setMenuOpen(false)}
             className="block bg-[#F97316] text-white text-sm font-bold px-4 py-3 rounded-xl text-center">
-            Activate Your Store — ₦2,000
+            Sign Up — Activate Your Store
           </a>
         </div>
       )}
