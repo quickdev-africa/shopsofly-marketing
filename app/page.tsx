@@ -412,6 +412,21 @@ function Pricing() {
         </div>
         {/* Mobile Carousel */}
         <div className="md:hidden">
+          {/* Top navigation arrows + dots */}
+          <div className="flex items-center justify-between mb-4 px-1">
+            <div className="flex gap-2">
+              {plans.map((_: any, i: number) => (
+                <button key={i} onClick={() => setMobileIndex(i)}
+                  className={"w-2 h-2 rounded-full transition-colors " + (mobileIndex === i ? "bg-[#4A7C59]" : "bg-gray-300")} />
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setMobileIndex(Math.max(0, mobileIndex - 1))} disabled={mobileIndex === 0}
+                className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-xs disabled:opacity-30 hover:border-[#4A7C59] hover:text-[#4A7C59]">←</button>
+              <button onClick={() => setMobileIndex(Math.min(plans.length - 1, mobileIndex + 1))} disabled={mobileIndex === plans.length - 1}
+                className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-xs disabled:opacity-30 hover:border-[#4A7C59] hover:text-[#4A7C59]">→</button>
+            </div>
+          </div>
           <div className="overflow-hidden">
             <div className="flex transition-transform duration-300 ease-in-out"
               style={{ transform: `translateX(-${mobileIndex * 100}%)` }}>
@@ -421,7 +436,7 @@ function Pricing() {
                 const displayPeriod = showYearly ? "per year" : plan.name === "21-Day Trial" ? "one-time" : "per month";
                 return (
                   <div key={plan.name} className="w-full flex-shrink-0 px-1">
-                    <div className={"rounded-2xl p-7 border-2 relative " + (
+                    <div className={"rounded-2xl px-7 pt-10 pb-7 border-2 relative " + (
                       plan.highlight ? "border-[#F97316] shadow-xl shadow-orange-100" : "border-gray-200"
                     )}>
                       {plan.badge && (
@@ -445,7 +460,7 @@ function Pricing() {
                       )}>{plan.cta}</a>
                       <ul className="space-y-2">
                         {plan.features.map((f: string) => (
-                          <li key={f} className="flex items-start gap-2 text-sm text-black">
+                          <li key={f} className="flex items-start gap-2 text-base text-black">
                             <span className="text-[#4A7C59] font-bold mt-0.5">✓</span>
                             <span>{f}</span>
                           </li>
@@ -457,18 +472,7 @@ function Pricing() {
               })}
             </div>
           </div>
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button onClick={() => setMobileIndex(Math.max(0, mobileIndex - 1))} disabled={mobileIndex === 0}
-              className="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center disabled:opacity-30 hover:border-[#4A7C59] hover:text-[#4A7C59]">←</button>
-            <div className="flex gap-2">
-              {plans.map((_: any, i: number) => (
-                <button key={i} onClick={() => setMobileIndex(i)}
-                  className={"w-2.5 h-2.5 rounded-full " + (mobileIndex === i ? "bg-[#4A7C59]" : "bg-gray-300")} />
-              ))}
-            </div>
-            <button onClick={() => setMobileIndex(Math.min(plans.length - 1, mobileIndex + 1))} disabled={mobileIndex === plans.length - 1}
-              className="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center disabled:opacity-30 hover:border-[#4A7C59] hover:text-[#4A7C59]">→</button>
-          </div>
+
         </div>
                 <div className="hidden md:grid md:grid-cols-3 gap-6 items-start">
           {plans.map((plan: any) => {
