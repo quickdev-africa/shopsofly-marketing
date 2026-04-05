@@ -427,7 +427,7 @@ function Pricing() {
                 className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-xs disabled:opacity-30 hover:border-[#4A7C59] hover:text-[#4A7C59]">→</button>
             </div>
           </div>
-          <div className="overflow-hidden">
+          <div className="overflow-visible pt-5">
             <div className="flex transition-transform duration-300 ease-in-out"
               style={{ transform: `translateX(-${mobileIndex * 100}%)` }}>
               {plans.map((plan: any) => {
