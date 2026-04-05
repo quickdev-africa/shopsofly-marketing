@@ -409,13 +409,13 @@ function Pricing() {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        <div className="flex md:grid md:grid-cols-3 gap-5 overflow-x-auto md:overflow-visible pb-4 md:pb-0" style={{ scrollSnapType: "x mandatory" }}>
           {plans.map((plan: any) => {
             const showYearly = yearly && plan.yearlyPrice;
             const displayPrice = showYearly ? plan.yearlyPrice : plan.monthlyPrice;
             const displayPeriod = showYearly ? "per year" : plan.name === "21-Day Trial" ? "one-time" : "per month";
             return (
-              <div key={plan.name} className={"rounded-2xl p-8 border-2 relative " + (
+              <div key={plan.name} style={{ scrollSnapAlign: "start", minWidth: "280px" }} className={"flex-shrink-0 md:flex-shrink rounded-2xl p-8 border-2 relative " + (
                 plan.highlight ? "border-[#F97316] shadow-xl shadow-orange-100 scale-105" : "border-gray-200"
               )}>
                 {plan.badge && (
