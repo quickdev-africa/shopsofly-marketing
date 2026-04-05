@@ -152,7 +152,7 @@ function Nav() {
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-black">
           <a href="#features" className="hover:text-[#4A7C59] transition-colors">Features</a>
-          <a href="/signup" className="hover:text-[#4A7C59] transition-colors">Pricing</a>
+          <a href="#pricing" className="hover:text-[#4A7C59] transition-colors">Pricing</a>
           <a href="#how-it-works" className="hover:text-[#4A7C59] transition-colors">How It Works</a>
           <a href="#faq" className="hover:text-[#4A7C59] transition-colors">FAQ</a>
           <a href="#resources" className="hover:text-[#4A7C59] transition-colors">Resources</a>
@@ -185,7 +185,7 @@ function Nav() {
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-4">
           <a href="#features" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Features</a>
-          <a href="/signup" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Pricing</a>
+          <a href="#pricing" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Pricing</a>
           <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">How It Works</a>
           <a href="#faq" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">FAQ</a>
           <a href="#resources" onClick={() => setMenuOpen(false)} className="block text-sm font-medium text-gray-700 hover:text-[#4A7C59]">Resources</a>
