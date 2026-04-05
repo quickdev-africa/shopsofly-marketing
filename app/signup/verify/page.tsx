@@ -52,26 +52,25 @@ function VerifyContent() {
   return (
     <div className="text-center py-20">
       <div className="text-6xl mb-4">🎉</div>
-      <h2 className="text-3xl font-black text-[#1A1A1A] mb-2">Your Store is Live!</h2>
-      <p className="text-gray-500 mb-2">Welcome to Shopsofly. Your 21-day trial has begun.</p>
+      <h2 className="text-3xl font-black text-[#1A1A1A] mb-2">Payment Successful!</h2>
+      <p className="text-gray-600 mb-2">Welcome to Shopsofly. Your store is being set up.</p>
       <div className="bg-[#E8F0E9] rounded-2xl p-6 max-w-sm mx-auto my-8 text-left">
-        <p className="text-sm text-gray-600 mb-1">Store Name</p>
+        <p className="text-sm text-gray-500 mb-1">Store Name</p>
         <p className="font-bold text-gray-900 mb-3">{store?.name}</p>
-        <p className="text-sm text-gray-600 mb-1">Your Store URL</p>
-        <a href={"https://" + store?.subdomain + ".shopsofly.com"} target="_blank"
-          className="font-bold text-[#4A7C59] hover:underline">{store?.subdomain}.shopsofly.com</a>
+        <p className="text-sm text-gray-500 mb-1">Your Store URL</p>
+        <p className="font-bold text-[#4A7C59]">{store?.subdomain}.shopsofly.com</p>
       </div>
-      <p className="text-gray-500 text-sm mb-6">Check your email to set your password and login to your merchant portal.</p>
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href={"https://" + store?.subdomain + ".shopsofly.com"} target="_blank"
-          className="bg-[#4A7C59] text-white px-6 py-3 rounded-xl font-semibold">
-          Visit My Store →
-        </a>
-        <a href="https://app.shopsofly.com"
-          className="bg-[#F97316] text-white px-6 py-3 rounded-xl font-semibold">
-          Go to Merchant Portal →
-        </a>
+      <div className="bg-orange-50 border border-orange-200 rounded-2xl p-5 max-w-sm mx-auto mb-6 text-left">
+        <p className="font-bold text-orange-800 mb-2">📧 Next Step:</p>
+        <p className="text-orange-700 text-sm leading-relaxed">
+          Check your email for a password setup link. Click the link to set your password and login to your merchant portal to complete your store setup.
+        </p>
       </div>
+      <a href="https://app.shopsofly.com"
+        className="inline-block bg-[#4A7C59] hover:bg-[#2D4A32] text-white px-8 py-4 rounded-xl font-bold transition-colors">
+        Go to Merchant Portal →
+      </a>
+      <p className="text-gray-400 text-xs mt-4">Your store URL will be active within a few minutes.</p>
     </div>
   );
 }
