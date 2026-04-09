@@ -25,6 +25,12 @@ function VerifyContent() {
         if (data.store) {
           setStore(data.store);
           setStatus("success");
+          // Redirect to activate page with token so progress bar works immediately
+          if (data.activate_token) {
+            setTimeout(() => {
+              window.location.href = `https://app.shopsofly.com/activate?token=${data.activate_token}&store=${data.store.subdomain}`;
+            }, 3000);
+          }
         } else {
           setError(data.error || "Payment verification failed.");
           setStatus("error");
